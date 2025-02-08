@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Time Display</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            
+            let period = "AM";
+            let displayHours = hours;
+            if (displayHours >= 12) {
+                period = "PM";
+                displayHours = (displayHours % 12) || 12;
+            }
+            
+            document.getElementById("time").innerHTML = `<span class='block'>${displayHours}:${minutes}<span class='text-5xl'>:${seconds}</span> ${period}</span>`;
+            document.getElementById("date").innerText = now.toLocaleDateString("en-US", {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+
+            const timeZones = {
+                "New York": "America/New_York",
+                "London": "Europe/London",
+                "Paris": "Europe/Paris",
+                "Beijing": "Asia/Shanghai",
+                "Tokyo": "Asia/Tokyo"
+            };
+            
+            let timeZoneDisplay = "";
+            for (const [city, zone] of Object.entries(timeZones)) {
+                let cityTime = new Intl.DateTimeFormat("en-US", {
+                    hour: "2-digit", minute: "2-digit", hour12: true, timeZone: zone
+                }).format(now);
+                
+                timeZoneDisplay += `<div class='p-4 bg-gray-800 text-green-300 shadow-md rounded-lg text-center'><div class='font-bold text-lg'>${city}</div><div class='text-xl'>${cityTime}</div></div>`;
+            }
+            document.getElementById("timezones").innerHTML = `<div class='grid grid-cols-5 gap-4'>${timeZoneDisplay}</div>`;
+        }
+        
+        setInterval(updateTime, 1000);
+        window.onload = updateTime;
+    </script>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-green-300">
+    <div class="text-center">
+        <div id="time" class="font-bold" style="font-size: 33vh;"></div>
+        <div id="date" class="text-2xl mt-4 text-green-400"></div>
+    </div>
+    <div id="timezones" class="mt-8 w-full max-w-5xl"></div>
+</body>
+</html>
