@@ -24,10 +24,12 @@
             if (words.length > 0) {
                 const wordData = words[wordIndex];
                 document.getElementById("word-display").innerHTML = `
-                    <div class='bg-gray-800 text-green-300 shadow-md rounded-lg text-center'>
-                        <div class='font-bold' style='font-size: 20vh;'>${wordData.word}</div>
-                        <div class='text-lg italic'>${wordData.pronunciation}</div>
-                        <div class='mt-2 text-lg'>${wordData.definition}</div>
+                    <div class='bg-gray-800 text-green-300 shadow-md rounded-lg text-center p-4'>
+                        <div class='flex justify-center items-baseline'>
+                            <span class='font-bold text-9xl'>${wordData.word}</span>
+                            <span class='text-6xl text-gray-400 ml-4 italic'>${wordData.pronunciation}</span>
+                        </div>
+                        <div class='mt-2 text-4xl'>${wordData.definition}</div>
                     </div>`;
                 wordIndex = (wordIndex + 1) % words.length;
             }
