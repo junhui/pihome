@@ -31,10 +31,25 @@
                         </div>
                         <div class='mt-2 text-4xl'>${wordData.definition}</div>
                     </div>`;
+                updateWordList(wordData.word);
                 wordIndex = (wordIndex + 1) % words.length;
             }
         }
-
+        function updateWordList(currentWord) {
+            let wordList = [];
+            for (let i = -7; i <= 2; i++) {
+                let index = wordIndex + i;
+                if (index < 0) {
+                    index = words.length + index;
+                } else if (index >= words.length) {
+                    index = index - words.length;
+                }
+                if(words[index].word!=currentWord){
+                    wordList.push(words[index].word);
+                }
+            }
+            document.getElementById("word-list").innerHTML = `<div class='flex justify-center gap-4 text-4xl font-semibold text-gray-400 overflow-hidden whitespace-nowrap'>${wordList.map(w => `<span>${w}</span>`).join('')}</div>`;
+        }
         function updateTime() {
             const now = new Date();
             const hours = now.getHours().toString().padStart(2, '0');
@@ -55,8 +70,6 @@
 
             const timeZones = {
                 "New York": "America/New_York",
-                "London": "Europe/London",
-                "Paris": "Europe/Paris",
                 "Beijing": "Asia/Shanghai",
                 "Tokyo": "Asia/Tokyo"
             };
@@ -82,13 +95,14 @@
 <body class="flex flex-col items-center min-h-screen bg-gray-900 text-green-300">
     <div class="flex w-full max-w-6xl">
         <div class="w-4/5 flex justify-center">
-            <div id="time" class="font-bold" style="font-size: 15rem;"></div>
+            <div id="time" class="font-bold leading-none" style="font-size: 15rem;"></div>
         </div>
         <div class="w-1/5 flex flex-col items-end mt-4">
             <div id="date" class="text-5xl"></div>
             <div id="timezones" class="mt-2"></div>
         </div>
     </div>
-    <div id="word-display" class="w-full mt-0"></div>
+    <div id="word-display" class="w-full mt-0 leading-none"></div>
+    <div id="word-list" class="w-full mt-4 leading-none"></div>
 </body>
 </html>
