@@ -48,9 +48,9 @@
                 displayHours = (displayHours % 12) || 12;
             }
             
-            document.getElementById("time").innerHTML = `<span class='block'>${displayHours}:${minutes}<span class='text-5xl'>:${seconds}</span> ${period}</span>`;
+            document.getElementById("time").innerHTML = `<span class='block'>${displayHours}:${minutes}<span class='text-5xl'>:${seconds}</span></span>`;
             document.getElementById("date").innerText = now.toLocaleDateString("en-US", {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                weekday: 'short', month: 'numeric', day: 'numeric'
             });
 
             const timeZones = {
@@ -67,9 +67,9 @@
                     hour: "2-digit", minute: "2-digit", hour12: true, timeZone: zone
                 }).format(now);
                 
-                timeZoneDisplay += `<div class='bg-gray-800 text-green-300 shadow-md rounded-lg text-center'><div class='font-bold text-lg'>${city}</div><div class='text-xl'>${cityTime}</div></div>`;
+                timeZoneDisplay += `<div class='flex justify-between p-2 bg-gray-800 text-green-300 shadow-md rounded-lg'><div class='font-bold text-lg mr-2'>${city}</div><div class='text-xl'>${cityTime}</div></div>`;
             }
-            document.getElementById("timezones").innerHTML = `<div class='grid grid-cols-5 gap-4'>${timeZoneDisplay}</div>`;
+            document.getElementById("timezones").innerHTML = `<div class='flex flex-col gap-3'>${timeZoneDisplay}</div>`;
         }
         
         setInterval(updateTime, 1000);
@@ -80,11 +80,15 @@
     </script>
 </head>
 <body class="flex flex-col items-center min-h-screen bg-gray-900 text-green-300">
-    <div class="text-center">
-        <div id="date" class="text-2xl text-green-400 text-right"></div>
-        <div id="time" class="font-bold" style="font-size: 33vh;"></div>
+    <div class="flex w-full max-w-6xl">
+        <div class="w-4/5 flex justify-center">
+            <div id="time" class="font-bold" style="font-size: 22rem;"></div>
+        </div>
+        <div class="w-1/5 flex flex-col items-end mt-4">
+            <div id="date" class="text-5xl mb-10"></div>
+            <div id="timezones" class="mt-2"></div>
+        </div>
     </div>
-    <div id="timezones" class="w-full max-w-5xl"></div>
-    <div id="word-display" class="w-full mt-2"></div>
+    <div id="word-display" class="w-full mt-0"></div>
 </body>
 </html>
